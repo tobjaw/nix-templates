@@ -133,13 +133,12 @@
         ]
       },
       "locked": {
-        "lastModified": 1751194419,
-        "narHash": "sha256-NELjJPlZ6KA6by+Mc3yTF7PG/LLqOYVpFr2kS0MlSOs=",
-        "ref": "refs/heads/main",
-        "rev": "0ccdaaaa404cc7088cd95934fa367f9d44f2048a",
-        "revCount": 2,
-        "type": "git",
-        "url": "file:///data/dev/nix-tools"
+        "lastModified": 1751199364,
+        "narHash": "sha256-U3ASFrXSW0Q28FYNsUGuqrDfwxaCEWpj7QNmfbwrgYE=",
+        "owner": "tobjaw",
+        "repo": "nix-tools",
+        "rev": "b7a187b56d32012007d2693d870b7a2df1dc7c26",
+        "type": "github"
       },
       "original": {
         "owner": "tobjaw",
