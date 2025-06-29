@@ -84,7 +84,6 @@
               {
                 name = "init";
                 help = "init a new project in the current working directory";
-                command = "init";
                 package = init;
               }
               {
