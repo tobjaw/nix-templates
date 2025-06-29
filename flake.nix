@@ -48,6 +48,10 @@
             description = "Shell script";
             path = ./bash;
           };
+          html = {
+            description = "Vanilla HTML";
+            path = ./html;
+          };
         };
         systems = [
           "x86_64-linux"
