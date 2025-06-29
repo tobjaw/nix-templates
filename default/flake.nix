@@ -58,7 +58,7 @@
               {
                 name = "lint";
                 help = "lint project";
-                command = "nix flake check";
+                command = "pre-commit run --all-files";
               }
             ];
             packages = with pkgs; [
