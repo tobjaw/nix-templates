@@ -11,12 +11,17 @@
       url = "github:tobjaw/nix-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    taskfile-parts = {
+      url = "github:tobjaw/taskfile-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{
       flake-parts,
       nix-tools,
+      taskfile-parts,
       ...
     }:
 
@@ -24,7 +29,7 @@
       imports = [
         nix-tools.flakeModules.default
         nix-tools.flakeModules.git-hooks
-        nix-tools.flakeModules.devshell
+        taskfile-parts.flakeModules.default
         nix-tools.flakeModules.javascript
       ];
       systems = [
@@ -39,43 +44,17 @@
           ...
         }:
         {
-          devshells.default = {
-            commands = [
-              {
-                name = "build";
-                help = "build project";
-                command = "npm run build";
-              }
-              {
-                name = "run";
-                help = "run project";
-                command = "npm start";
-              }
-              {
-                name = "tests";
-                help = "test project";
-                command = "npm run test";
-              }
-              {
-                name = "lint";
-                help = "lint project";
-                command = "pre-commit run --all-files";
-              }
-              {
-                name = "lint_fix";
-                help = "fix linting issues";
-                command = "biome check --fix --unsafe";
-              }
-            ];
-            packages = with pkgs; [
-              nodejs
-              biome
-            ];
-            devshell.startup.pre-commit.text = ''
-              ${config.pre-commit.installationScript}
-            '';
+          taskfile = {
+            enable = true;
+            path = ./Taskfile.yml;
+            shell = {
+              buildInputs = with pkgs; [
+                nodejs
+                biome
+              ];
+              shellHook = config.pre-commit.installationScript;
+            };
           };
-
         };
     };
 

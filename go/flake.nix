@@ -11,12 +11,17 @@
       url = "github:tobjaw/nix-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    taskfile-parts = {
+      url = "github:tobjaw/taskfile-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{
       flake-parts,
       nix-tools,
+      taskfile-parts,
       ...
     }:
 
@@ -26,7 +31,7 @@
         imports = [
           nix-tools.flakeModules.default
           nix-tools.flakeModules.git-hooks
-          nix-tools.flakeModules.devshell
+          taskfile-parts.flakeModules.default
           nix-tools.flakeModules.go
         ];
         systems = [
@@ -41,42 +46,17 @@
             ...
           }:
           {
-            devshells.default = {
-              env = [
-                {
-                  name = "HTTP_PORT";
-                  value = 8080;
-                }
-              ];
-              commands = [
-                {
-                  name = "build";
-                  help = "compile go code into executable";
-                  command = "go build";
-                }
-                {
-                  name = "run";
-                  help = "run";
-                  command = "build && ./example -log.level=debug";
-                }
-                {
-                  name = "tests";
-                  help = "test project";
-                  command = "go test -v ./... -failfast";
-                }
-                {
-                  name = "lint";
-                  help = "lint project";
-                  command = "pre-commit run --all-files";
-                }
-              ];
-              packages = with pkgs; [
-                go
-                gopls
-              ];
-              devshell.startup.pre-commit.text = ''
-                ${config.pre-commit.installationScript}
-              '';
+            taskfile = {
+              enable = true;
+              path = ./Taskfile.yml;
+              shell = {
+                buildInputs = with pkgs; [
+                  go
+                  gopls
+                ];
+                env.HTTP_PORT = "8080";
+                shellHook = config.pre-commit.installationScript;
+              };
             };
 
             packages = rec {

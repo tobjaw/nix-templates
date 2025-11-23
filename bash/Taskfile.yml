@@ -1,0 +1,17 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build
+    cmds:
+      - nix build .#
+
+  run:
+    desc: Run
+    cmds:
+      - nix run .#
+
+  lint:
+    desc: Lint project
+    cmds:
+      - pre-commit run --all-files

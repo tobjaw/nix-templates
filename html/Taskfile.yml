@@ -1,0 +1,27 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build project
+    cmds:
+      - npm run build
+
+  run:
+    desc: Run project
+    cmds:
+      - npm start
+
+  tests:
+    desc: Test project
+    cmds:
+      - npm run test
+
+  lint:
+    desc: Lint project
+    cmds:
+      - pre-commit run --all-files
+
+  lint_fix:
+    desc: Fix linting issues
+    cmds:
+      - biome check --fix --unsafe

@@ -1,0 +1,23 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Compile go code into executable
+    cmds:
+      - go build
+
+  run:
+    desc: Run
+    cmds:
+      - task build
+      - ./example -log.level=debug
+
+  tests:
+    desc: Test project
+    cmds:
+      - go test -v ./... -failfast
+
+  lint:
+    desc: Lint project
+    cmds:
+      - pre-commit run --all-files

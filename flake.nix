@@ -18,12 +18,17 @@
       url = "github:tobjaw/nix-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    taskfile-parts = {
+      url = "github:tobjaw/taskfile-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{
       flake-parts,
       nix-tools,
+      taskfile-parts,
       ...
     }:
 
@@ -33,7 +38,7 @@
         imports = [
           nix-tools.flakeModules.default
           nix-tools.flakeModules.git-hooks
-          nix-tools.flakeModules.devshell
+          taskfile-parts.flakeModules.default
         ];
         flake.templates = {
           default = {
@@ -86,22 +91,13 @@
               };
           in
           {
-            devshells.default = {
-              commands = [
-                {
-                  name = "init";
-                  help = "init a new project in the current working directory";
-                  package = init;
-                }
-                {
-                  name = "lint";
-                  help = "lint project";
-                  command = "nix flake check";
-                }
-              ];
-              devshell.startup.pre-commit.text = ''
-                ${config.pre-commit.installationScript}
-              '';
+            taskfile = {
+              enable = true;
+              path = ./Taskfile.yml;
+              shell = {
+                buildInputs = [ init ];
+                shellHook = config.pre-commit.installationScript;
+              };
             };
             packages = {
               inherit init;

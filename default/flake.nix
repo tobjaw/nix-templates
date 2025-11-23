@@ -11,12 +11,17 @@
       url = "github:tobjaw/nix-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    taskfile-parts = {
+      url = "github:tobjaw/taskfile-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{
       flake-parts,
       nix-tools,
+      taskfile-parts,
       ...
     }:
 
@@ -24,7 +29,7 @@
       imports = [
         nix-tools.flakeModules.default
         nix-tools.flakeModules.git-hooks
-        nix-tools.flakeModules.devshell
+        taskfile-parts.flakeModules.default
       ];
       systems = [
         "x86_64-linux"
@@ -38,37 +43,16 @@
           ...
         }:
         {
-          devshells.default = {
-            commands = [
-              {
-                name = "build";
-                help = "build project";
-                command = "echo TODO && exit 1";
-              }
-              {
-                name = "run";
-                help = "run project";
-                command = "hello && exit 1";
-              }
-              {
-                name = "tests";
-                help = "test project";
-                command = "echo TODO && exit 1";
-              }
-              {
-                name = "lint";
-                help = "lint project";
-                command = "pre-commit run --all-files";
-              }
-            ];
-            packages = with pkgs; [
-              hello
-            ];
-            devshell.startup.pre-commit.text = ''
-              ${config.pre-commit.installationScript}
-            '';
+          taskfile = {
+            enable = true;
+            path = ./Taskfile.yml;
+            shell = {
+              buildInputs = with pkgs; [
+                hello
+              ];
+              shellHook = config.pre-commit.installationScript;
+            };
           };
-
         };
     };
 

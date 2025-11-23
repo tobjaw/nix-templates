@@ -1,0 +1,22 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build project
+    cmds:
+      - echo TODO && exit 1
+
+  run:
+    desc: Run project
+    cmds:
+      - hello && exit 1
+
+  tests:
+    desc: Test project
+    cmds:
+      - echo TODO && exit 1
+
+  lint:
+    desc: Lint project
+    cmds:
+      - pre-commit run --all-files

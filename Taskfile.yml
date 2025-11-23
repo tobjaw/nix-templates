@@ -1,0 +1,12 @@
+version: "3"
+
+tasks:
+  init:
+    desc: Init a new project in the current working directory
+    cmds:
+      - init {{.CLI_ARGS}}
+
+  lint:
+    desc: Lint project
+    cmds:
+      - nix flake check
