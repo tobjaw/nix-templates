@@ -41,7 +41,7 @@ The root `flake.nix` uses flake-parts and defines:
 
 - **Templates export**: Each subdirectory (default, go, bash, html) is exposed as a flake template via `flake.templates`
 - **Init package**: The `init.sh` script is wrapped as a Nix package that handles project initialization. It's injected with the FLAKE environment variable pointing to this repository
-- **Shared inputs**: All templates follow nixpkgs 25.05 and depend on:
+- **Shared inputs**: All templates follow nixpkgs 26.05 and depend on:
   - tobjaw/nix-tools for common flake modules
   - tobjaw/taskfile-parts for task runner integration
 
