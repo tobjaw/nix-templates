@@ -1,0 +1,28 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build project
+    cmds:
+      - nix build
+
+  run:
+    desc: Run project
+    cmds:
+      - example
+
+  tests:
+    desc: Test project
+    cmds:
+      - python -m pytest
+
+  lint:
+    desc: Lint project
+    cmds:
+      - pre-commit run --all-files
+
+  lint_fix:
+    desc: Fix linting issues
+    cmds:
+      - pre-commit run ruff --all-files
+      - pre-commit run ruff-format --all-files

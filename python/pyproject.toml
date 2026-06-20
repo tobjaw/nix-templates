@@ -1,0 +1,21 @@
+[project]
+name = "example"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+example = "example:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = true
+
+[tool.pytest.ini_options]
+testpaths = ["src"]

@@ -7,9 +7,12 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    nix-tools = {
-      url = "github:tobjaw/nix-tools";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nix-templates = {
+      url = "github:tobjaw/nix-templates";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        taskfile-parts.follows = "taskfile-parts";
+      };
     };
     taskfile-parts = {
       url = "github:tobjaw/taskfile-parts";
@@ -20,16 +23,16 @@
   outputs =
     inputs@{
       flake-parts,
-      nix-tools,
+      nix-templates,
       taskfile-parts,
       ...
     }:
 
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        nix-tools.flakeModules.default
-        nix-tools.flakeModules.git-hooks
+        nix-templates.flakeModules.git-hooks
         taskfile-parts.flakeModules.default
+        nix-templates.flakeModules.common
       ];
       systems = [
         "x86_64-linux"
@@ -39,7 +42,6 @@
       perSystem =
         {
           pkgs,
-          config,
           ...
         }:
         {
@@ -50,7 +52,6 @@
               buildInputs = with pkgs; [
                 hello
               ];
-              shellHook = config.pre-commit.installationScript;
             };
           };
         };

@@ -7,9 +7,12 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    nix-tools = {
-      url = "github:tobjaw/nix-tools";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nix-templates = {
+      url = "github:tobjaw/nix-templates";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        taskfile-parts.follows = "taskfile-parts";
+      };
     };
     taskfile-parts = {
       url = "github:tobjaw/taskfile-parts";
@@ -20,7 +23,7 @@
   outputs =
     inputs@{
       flake-parts,
-      nix-tools,
+      nix-templates,
       taskfile-parts,
       ...
     }:
@@ -29,10 +32,10 @@
       { self, ... }:
       {
         imports = [
-          nix-tools.flakeModules.default
-          nix-tools.flakeModules.git-hooks
+          nix-templates.flakeModules.git-hooks
           taskfile-parts.flakeModules.default
-          nix-tools.flakeModules.go
+          nix-templates.flakeModules.common
+          nix-templates.flakeModules.go
         ];
         systems = [
           "x86_64-linux"
@@ -42,7 +45,6 @@
         perSystem =
           {
             pkgs,
-            config,
             ...
           }:
           {
@@ -55,7 +57,6 @@
                   gopls
                 ];
                 env.HTTP_PORT = "8080";
-                shellHook = config.pre-commit.installationScript;
               };
             };
 

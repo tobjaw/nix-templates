@@ -14,8 +14,8 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    nix-tools = {
-      url = "github:tobjaw/nix-tools";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     taskfile-parts = {
@@ -27,17 +27,26 @@
   outputs =
     inputs@{
       flake-parts,
-      nix-tools,
+      git-hooks,
       taskfile-parts,
       ...
     }:
 
     flake-parts.lib.mkFlake { inherit inputs; } (
-      { self, ... }:
+      {
+        self,
+        flake-parts-lib,
+        ...
+      }:
+      let
+        inherit (flake-parts-lib) importApply;
+        importFlakeModule = p: importApply p { inherit flake-parts-lib; };
+        commonModule = importFlakeModule ./flake-modules/common.nix;
+      in
       {
         imports = [
-          nix-tools.flakeModules.default
-          nix-tools.flakeModules.git-hooks
+          commonModule
+          git-hooks.flakeModule
           taskfile-parts.flakeModules.default
         ];
         flake.templates = {
@@ -57,6 +66,17 @@
             description = "Vanilla HTML";
             path = ./html;
           };
+          python = {
+            description = "Python application (uv2nix)";
+            path = ./python;
+          };
+        };
+        flake.flakeModules = {
+          git-hooks = git-hooks.flakeModule;
+          common = commonModule;
+          go = importFlakeModule ./flake-modules/go.nix;
+          javascript = importFlakeModule ./flake-modules/javascript.nix;
+          python = importFlakeModule ./flake-modules/python.nix;
         };
         systems = [
           "x86_64-linux"
@@ -67,7 +87,6 @@
           {
             system,
             pkgs,
-            config,
             ...
           }:
           let
@@ -96,7 +115,6 @@
               path = ./Taskfile.yml;
               shell = {
                 buildInputs = [ init ];
-                shellHook = config.pre-commit.installationScript;
               };
             };
             packages = {

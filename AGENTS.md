@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a collection of Nix flake templates for bootstrapping new projects. The repository contains multiple template directories (default, go, bash, html), each providing a complete project structure with Nix flake configuration using flake-parts and nix-tools.
+This is a collection of Nix flake templates for bootstrapping new projects. The repository contains
+multiple template directories (default, go, bash, html, python), each providing a complete project
+structure with Nix flake configuration using flake-parts and nix-tools.
 
 ## Commands
 
@@ -15,10 +17,10 @@ This is a collection of Nix flake templates for bootstrapping new projects. The 
 nix flake check
 
 # Test init script with default template
-nix run . -- default .
+nix run .# -- default
 
 # Test a specific template initialization
-nix run . -- go /tmp/test-dir
+nix run .# -- go /tmp/test-dir
 ```
 
 ### Development Shell
@@ -39,21 +41,18 @@ Tasks are also available as Nix apps:
 
 The root `flake.nix` uses flake-parts and defines:
 
-- **Templates export**: Each subdirectory (default, go, bash, html) is exposed as a flake template via `flake.templates`
-- **Init package**: The `init.sh` script is wrapped as a Nix package that handles project initialization. It's injected with the FLAKE environment variable pointing to this repository
+- **Templates export**: Each subdirectory (default, go, bash, html, python) is exposed as a flake
+  template via `flake.templates`
+- **Init package**: The `init.sh` script is wrapped as a Nix package that handles project
+  initialization. It's injected with the FLAKE environment variable pointing to this repository
 - **Shared inputs**: All templates follow nixpkgs 26.05 and depend on:
-  - tobjaw/nix-tools for common flake modules
-  - tobjaw/taskfile-parts for task runner integration
+  - tobjaw/taskfile-parts for task runner integration - potentially located at ../taskfile-parts
 
 ### Template Pattern
 
 All templates follow a consistent structure:
 
 - Use flake-parts for modular flake configuration
-- Import nix-tools flake modules for common functionality:
-  - `nix-tools.flakeModules.default` - Base module
-  - `nix-tools.flakeModules.git-hooks` - Pre-commit hook integration
-  - Language-specific modules (e.g., `go`, `javascript`)
 - Import taskfile-parts for task runner integration:
   - `taskfile-parts.flakeModules.default` - Task runner module
 - Define tasks in `Taskfile.yml` (using go-task format): `build`, `run`, `tests`, `lint`
@@ -92,6 +91,14 @@ The init script automates new project creation:
 
 - Minimal boilerplate with placeholder commands
 - Starting point for custom project types
+
+**Python template**:
+
+- uv2nix-based: dependencies live in `pyproject.toml` + `uv.lock`
+- Add any PyPI package (in-nixpkgs or not) with `uv add <pkg>` — uv2nix builds it from the lockfile
+- `pyprojectOverrides` in `flake.nix` handles sdist build-system fixes for C-extension packages
+- `packages.default` is a fully reproducible virtualenv built by Nix
+- Dev shell uses an editable install so source changes are reflected without rebuilding
 
 ## Working with Templates
 

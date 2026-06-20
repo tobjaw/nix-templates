@@ -39,7 +39,7 @@
     "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": [
-          "nix-tools",
+          "nix-templates",
           "nixpkgs"
         ]
       },
@@ -58,28 +58,6 @@
       }
     },
     "flake-parts_3": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "nix-tools",
-          "taskfile-parts",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_4": {
       "inputs": {
         "nixpkgs-lib": [
           "taskfile-parts",
@@ -105,7 +83,7 @@
         "flake-compat": "flake-compat",
         "gitignore": "gitignore",
         "nixpkgs": [
-          "nix-tools",
+          "nix-templates",
           "nixpkgs"
         ]
       },
@@ -126,7 +104,7 @@
     "gitignore": {
       "inputs": {
         "nixpkgs": [
-          "nix-tools",
+          "nix-templates",
           "git-hooks",
           "nixpkgs"
         ]
@@ -145,26 +123,26 @@
         "type": "github"
       }
     },
-    "nix-tools": {
+    "nix-templates": {
       "inputs": {
         "flake-parts": "flake-parts_2",
         "git-hooks": "git-hooks",
         "nixpkgs": [
           "nixpkgs"
         ],
-        "taskfile-parts": "taskfile-parts"
+        "taskfile-parts": [
+          "taskfile-parts"
+        ]
       },
       "locked": {
-        "lastModified": 1781971707,
-        "narHash": "sha256-cYvP3U+YfKksoLuXVfCPwmVX99E8tKK+thbEYU0mYZE=",
-        "owner": "tobjaw",
-        "repo": "nix-tools",
-        "rev": "3dafbd866965edfbb3e53ed857fcdb314424243d",
-        "type": "github"
+        "lastModified": 1781977635,
+        "narHash": "sha256-Ves21935urG81tA0BJ/cbkS+ZAxV8q5a/dNLnNp13t4=",
+        "path": "/Volumes/dev/nix-templates",
+        "type": "path"
       },
       "original": {
         "owner": "tobjaw",
-        "repo": "nix-tools",
+        "repo": "nix-templates",
         "type": "github"
       }
     },
@@ -187,36 +165,14 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "nix-tools": "nix-tools",
+        "nix-templates": "nix-templates",
         "nixpkgs": "nixpkgs",
-        "taskfile-parts": "taskfile-parts_2"
+        "taskfile-parts": "taskfile-parts"
       }
     },
     "taskfile-parts": {
       "inputs": {
         "flake-parts": "flake-parts_3",
-        "nixpkgs": [
-          "nix-tools",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781970912,
-        "narHash": "sha256-FPHQtDlvRZm1658fek4XHUYiNiPxOa1Ass/OJUSbEFE=",
-        "owner": "tobjaw",
-        "repo": "taskfile-parts",
-        "rev": "0eb13c11ba5662e1d459264a28adfe80dfa40fd2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tobjaw",
-        "repo": "taskfile-parts",
-        "type": "github"
-      }
-    },
-    "taskfile-parts_2": {
-      "inputs": {
-        "flake-parts": "flake-parts_4",
         "nixpkgs": [
           "nixpkgs"
         ]
