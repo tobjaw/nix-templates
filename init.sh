@@ -16,5 +16,7 @@ fi
 cd "${target_dir}"
 git init .
 nix flake init -t "${FLAKE}#${template}"
+git add -A
+git commit -m "init" -m "nix run github:tobjaw/nix-templates/${FLAKE_REV} -- ${template}"
 direnv allow
 direnv reload

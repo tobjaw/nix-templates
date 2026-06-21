@@ -106,7 +106,8 @@
                   wrapProgram \
                     $out/bin/${name} \
                     --prefix PATH : $out/bin \
-                    --set FLAKE ${self}'';
+                    --set FLAKE ${self} \
+                    --set FLAKE_REV ${builtins.substring 0 7 (self.shortRev or self.dirtyShortRev)}'';
               };
           in
           {
