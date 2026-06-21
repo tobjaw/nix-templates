@@ -135,10 +135,12 @@
         ]
       },
       "locked": {
-        "lastModified": 1781977635,
-        "narHash": "sha256-z4RTVbhFzzI7pT3ENOfxgZOK9bFX7dOjRifI+c33xhg=",
-        "path": "/Volumes/dev/nix-templates",
-        "type": "path"
+        "lastModified": 1782033860,
+        "narHash": "sha256-jR1/gNbQBcaNDqABYUqGXp4fZuq0rpVydlH6UB+iZzM=",
+        "owner": "tobjaw",
+        "repo": "nix-templates",
+        "rev": "929f2706e879961189bf7d104a85cb18227fe13e",
+        "type": "github"
       },
       "original": {
         "owner": "tobjaw",
